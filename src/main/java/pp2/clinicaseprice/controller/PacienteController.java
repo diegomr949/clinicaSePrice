@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pacientes")
-@CrossOrigin(origins = "*") // ⚠️ Permitir acceso desde el frontend (AJAX)
+@CrossOrigin(origins = "*")
 public class PacienteController {
 
     private final PacienteService servicio;
