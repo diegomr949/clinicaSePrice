@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Paciente - Clínica SePrice</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="form-container">
+  <h1>Registrar Nuevo Paciente</h1>
+
+  <form id="registroPacienteForm">
+    <input type="text" id="nombrePaciente" placeholder="Nombre completo" required>
+    <input type="text" id="dniPaciente" placeholder="DNI" required>
+    <input type="email" id="emailPaciente" placeholder="Email" required>
+    <button type="submit">Registrar</button>
+  </form>
+
+  <div id="registroMensaje" class="message"></div>
+
+  <button onclick="window.location.href='index.html'" class="volver-btn">Volver</button>
+</div>
+
+<script src="js/registroPaciente.js"></script>
+</body>
+</html>
