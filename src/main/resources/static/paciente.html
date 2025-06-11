@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Paciente - Clínica SePrice</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="panel-container">
+    <h1>Bienvenido/a, Paciente</h1>
+
+    <section>
+        <h2>Solicitar Turno</h2>
+        <form id="solicitarTurnoForm">
+            <input type="text" id="especialidad" placeholder="Especialidad" required>
+            <input type="date" id="fechaTurno" required>
+            <input type="time" id="horaTurno" required>
+            <button type="submit">Solicitar Turno</button>
+        </form>
+        <div id="solicitarMensaje" class="message"></div>
+    </section>
+
+    <section>
+        <h2>Cancelar Turno</h2>
+        <form id="cancelarTurnoForm">
+            <input type="text" id="turnoIdCancelar" placeholder="ID del Turno" required>
+            <button type="submit">Cancelar Turno</button>
+        </form>
+        <di

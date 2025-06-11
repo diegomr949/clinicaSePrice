@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Médico - Clínica SePrice</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="panel-container">
+  <h1>Panel del Médico</h1>
+
+  <!-- Ver Agenda -->
+  <section>
+    <h2>Agenda Médica</h2>
+    <button id="btnVerAgenda">Ver Agenda</button>
+    <ul id="listaAgenda"></ul>
+  </section>
+
+  <!-- Registrar Atención Médica -->
+  <section>
+    <h2>Registrar Atención Médica</h2>
+    <form id="atencionMedicaForm">
+      <input type="text" id="turnoIdAtender" placeholder="ID del Turno" required>
+      <textarea id="diagnostico" placeholder="Diagnóstico / Observaciones" required></textarea>
+      <button type="submit">Registrar Atención</button>
+    </form>
+    <div id="mensajeAtencion" class="message"></div>
+  </section>
+
+  <button onclick="window.location.href='index.html'" class="volver-btn">Cerrar Sesión</button>
+</div>
+
+<script src="js/medico.js"></script>
+</body>
+</html>
