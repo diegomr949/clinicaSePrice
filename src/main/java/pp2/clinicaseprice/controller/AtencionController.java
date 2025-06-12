@@ -1,8 +1,12 @@
 package pp2.clinicaseprice.controller;
 
+import jakarta.validation.Valid;
+import pp2.clinicaseprice.dto.AtencionDTO;
 import pp2.clinicaseprice.model.Atencion;
 import pp2.clinicaseprice.service.AtencionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pp2.clinicaseprice.dto.AtencionDTO;
 
 import java.util.List;
 
@@ -18,12 +22,13 @@ public class AtencionController {
     }
 
     @GetMapping
-    public List<Atencion> listarAtenciones() {
-        return servicio.listar();
+    public ResponseEntity<List<Atencion>> listarAtenciones() {
+        return ResponseEntity.ok(servicio.listar());
     }
 
     @PostMapping
-    public Atencion registrarAtencion(@RequestBody Atencion atencion) {
-        return servicio.guardar(atencion);
+    public ResponseEntity<Atencion> registrarAtencion(@Valid @RequestBody AtencionDTO dto) {
+        Atencion atencion = servicio.registrar(dto);
+        return ResponseEntity.ok(atencion);
     }
 }

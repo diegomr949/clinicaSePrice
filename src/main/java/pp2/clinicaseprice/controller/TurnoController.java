@@ -31,4 +31,9 @@ public class TurnoController {
     public void cancelarTurno(@PathVariable Long id) {
         servicio.cancelar(id);
     }
+
+    @GetMapping("/paciente/{id}")
+    public List<Turno> obtenerTurnosPorPaciente(@PathVariable Long id) {
+        return servicio.listarPorPaciente(id);
+    }
 }

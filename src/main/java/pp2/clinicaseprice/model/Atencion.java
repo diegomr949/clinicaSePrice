@@ -22,4 +22,5 @@ public class Atencion {
 
     @Column(nullable = false)
     private String fechaAtencion;
+
 }

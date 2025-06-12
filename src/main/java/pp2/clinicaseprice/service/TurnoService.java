@@ -7,4 +7,5 @@ public interface TurnoService {
     List<Turno> listar();
     Turno guardar(Turno turno);
     void cancelar(Long id);
+    List<Turno> listarPorPaciente(Long pacienteId);
 }

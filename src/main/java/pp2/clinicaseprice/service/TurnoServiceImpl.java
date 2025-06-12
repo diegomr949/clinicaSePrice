@@ -31,4 +31,8 @@ public class TurnoServiceImpl implements TurnoService {
         turno.setEstado(Turno.EstadoTurno.CANCELADO);
         repo.save(turno);
     }
+    @Override
+    public List<Turno> listarPorPaciente(Long pacienteId) {
+        return repo.findByPacienteId(pacienteId);
+    }
 }
