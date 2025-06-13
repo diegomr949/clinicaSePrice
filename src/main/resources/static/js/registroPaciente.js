@@ -1,30 +1,49 @@
-document.getElementById('registroPacienteForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+// js/registroPaciente.js - Registro de nuevos pacientes con manejo de DNI duplicado
 
-    const nombre = document.getElementById('nombrePaciente').value;
-    const dni = document.getElementById('dniPaciente').value;
-    const email = document.getElementById('emailPaciente').value;
-    const mensaje = document.getElementById('registroMensaje');
+document.addEventListener('DOMContentLoaded', () => {
+    const registroPacienteForm = document.getElementById('registroPacienteForm');
+    const registroMensaje = document.getElementById('registroMensaje');
 
-    try {
-        const response = await fetch('http://localhost:8080/api/pacientes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, dni, email })
+    if (registroPacienteForm) {
+        registroPacienteForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombrePaciente').value.trim();
+            const dni = document.getElementById('dniPaciente').value.trim();
+            const email = document.getElementById('emailPaciente').value.trim();
+
+            const pacienteData = {
+                nombre: nombre,
+                dni: dni,
+                email: email
+            };
+
+            try {
+                const response = await fetch('/api/pacientes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include', // ✅ IMPORTANTE → envía cookies con sesión iniciada
+                    body: JSON.stringify(pacienteData)
+                });
+                if (response.ok) {
+                    const paciente = await response.json();
+                    registroMensaje.textContent = `✅ Paciente ${paciente.nombre} registrado exitosamente (ID: ${paciente.id})`;
+                    registroMensaje.style.color = 'green';
+                    registroPacienteForm.reset();
+                } else {
+                    const errorText = await response.text();
+                    registroMensaje.textContent = errorText.includes('Ya existe un paciente registrado')
+                        ? '❌ ' + errorText
+                        : '❌ Error al registrar paciente: ' + errorText;
+                    registroMensaje.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error de red al registrar paciente:', error);
+                registroMensaje.textContent = '❌ Error de conexión. Intente nuevamente.';
+                registroMensaje.style.color = 'red';
+            }
         });
-
-        if (response.ok) {
-            const paciente = await response.json();
-            mensaje.textContent = `✅ Paciente registrado: ${paciente.nombre} (ID: ${paciente.id})`;
-            mensaje.style.color = 'green';
-            document.getElementById('registroPacienteForm').reset();
-        } else {
-            const error = await response.text();
-            mensaje.textContent = `❌ Error: ${error}`;
-            mensaje.style.color = 'red';
-        }
-    } catch (err) {
-        mensaje.textContent = '❌ Error de conexión con el servidor';
-        mensaje.style.color = 'red';
     }
 });

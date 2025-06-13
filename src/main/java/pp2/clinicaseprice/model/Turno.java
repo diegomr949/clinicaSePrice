@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate; // Importar LocalDate
+import java.time.LocalTime; // Importar LocalTime
+
 @Entity
 @Getter @Setter
 @Table(name = "turnos")
@@ -19,8 +22,11 @@ public class Turno {
 
     private String especialidad;
 
-    private String fecha; // Formato YYYY-MM-DD
-    private String hora;  // Formato HH:MM
+    // Se cambió a LocalDate para almacenar solo la fecha
+    private LocalDate fecha; // Tipo de dato actualizado
+
+    // Se cambió a LocalTime para almacenar solo la hora
+    private LocalTime hora;  // Tipo de dato actualizado
 
     @Enumerated(EnumType.STRING)
     private EstadoTurno estado = EstadoTurno.ASIGNADO;
@@ -29,3 +35,4 @@ public class Turno {
         ASIGNADO, CANCELADO, ATENDIDO
     }
 }
+

@@ -6,18 +6,16 @@
   <title>Panel Médico - Clínica SePrice</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-<div class="panel-container">
+<body onload="gestionarVisibilidadPorRol()">
+<div class="panel-container solo-medico">
   <h1>Panel del Médico</h1>
 
-  <!-- Ver Agenda -->
   <section>
     <h2>Agenda Médica</h2>
     <button id="btnVerAgenda">Ver Agenda</button>
     <ul id="listaAgenda"></ul>
   </section>
 
-  <!-- Registrar Atención Médica -->
   <section>
     <h2>Registrar Atención Médica</h2>
     <form id="atencionMedicaForm">
@@ -28,10 +26,10 @@
     <div id="mensajeAtencion" class="message"></div>
   </section>
 
-  <button onclick="window.location.href='index.html'" class="volver-btn">Cerrar Sesión</button>
+  <button onclick="cerrarSesion()" class="volver-btn">Cerrar Sesión</button>
 </div>
 
+<script src="js/roles.js"></script>
 <script src="js/medico.js"></script>
-<script src="roles.js"></script>
 </body>
 </html>

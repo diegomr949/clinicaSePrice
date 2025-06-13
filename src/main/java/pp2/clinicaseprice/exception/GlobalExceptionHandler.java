@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // ⚠️ Solo UNO → usaremos 409 CONFLICT para recursos duplicados como DNI existente
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<String> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica SePrice - Ingreso</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="login-container">
+    <h1>Clínica SePrice</h1>
+    <h2>Gestión de Turnos</h2>
+
+    <form id="loginForm" method="POST" action="/login">
+        <input type="text" id="username" name="username" placeholder="Usuario" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <div id="loginMessage" class="message"></div>
+
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new URLSearchParams();
+            formData.append('username', document.getElementById('username').value);
+            formData.append('password', document.getElementById('password').value);
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formData.toString(),
+                    redirect: 'follow'
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.status === 401) {
+                    loginMessage.textContent = 'Usuario o contraseña incorrectos.';
+                } else {
+                    loginMessage.textContent = 'Error inesperado. Intente nuevamente.';
+                }
+            } catch (error) {
+                loginMessage.textContent = 'Error de conexión. Intente más tarde.';
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('logout')) {
+            loginMessage.textContent = 'Sesión cerrada exitosamente.';
+            loginMessage.style.color = 'green';
+        }
+    });
+</script>
+</body>
+</html>

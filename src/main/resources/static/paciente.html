@@ -6,8 +6,8 @@
     <title>Panel Paciente - Clínica SePrice</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-<div class="panel-container">
+<body onload="gestionarVisibilidadPorRol()">
+<div class="panel-container solo-paciente">
     <h1>Bienvenido/a, Paciente</h1>
 
     <section>
@@ -36,10 +36,11 @@
         <ul id="listaTurnos"></ul>
     </section>
 
-    <button onclick="window.location.href='index.html'" class="volver-btn">Cerrar Sesión</button>
+    <button onclick="cerrarSesion()" class="volver-btn">Cerrar Sesión</button>
 </div>
 
+<script src="js/roles.js"></script>
 <script src="js/paciente.js"></script>
-<script src="roles.js"></script>
 </body>
 </html>
+

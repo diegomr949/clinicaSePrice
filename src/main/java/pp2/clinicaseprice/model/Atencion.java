@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime; // Importar LocalDateTime
+
 @Entity
 @Getter @Setter
 @Table(name = "atenciones")
@@ -20,7 +22,8 @@ public class Atencion {
     @Column(columnDefinition = "TEXT")
     private String diagnostico;
 
+    // Se cambió a LocalDateTime para almacenar fecha y hora exactas de la atención
     @Column(nullable = false)
-    private String fechaAtencion;
+    private LocalDateTime fechaAtencion; // Tipo de dato actualizado
 
 }

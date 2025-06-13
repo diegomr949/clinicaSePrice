@@ -7,9 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class AtencionDTO {
 
-    @NotNull(message = "El ID del paciente es obligatorio")
-    private Long pacienteId;
-
+    // Se eliminó pacienteId, ya que se puede obtener a través del Turno
     @NotNull(message = "El ID del turno es obligatorio")
     private Long turnoId;
 
