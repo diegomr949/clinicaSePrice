@@ -16,7 +16,7 @@ public class AtencionController {
 
     private final AtencionService servicio;
 
-    public AtencionController(AtencionService servicio) {
+    public AtencionController(AtencionService servicio) { // Constructor para inyectar el servicio de Atencion.
         this.servicio = servicio;
     }
 
@@ -24,7 +24,7 @@ public class AtencionController {
      * Obtiene una lista de todas las atenciones médicas.
      * Requiere el rol MEDICO.
      */
-    @GetMapping
+    @GetMapping // Mapea solicitudes GET para listar atenciones.
     public ResponseEntity<List<Atencion>> listarAtenciones() {
         return ResponseEntity.ok(servicio.listar());
     }
@@ -35,7 +35,7 @@ public class AtencionController {
      * @param dto El objeto AtencionDTO que contiene los datos de la atención.
      * @return La atención médica registrada.
      */
-    @PostMapping
+    @PostMapping // Mapea solicitudes POST para registrar una nueva atención.
     public ResponseEntity<Atencion> registrarAtencion(@Valid @RequestBody AtencionDTO dto) {
         Atencion atencion = servicio.registrar(dto);
         return ResponseEntity.ok(atencion);

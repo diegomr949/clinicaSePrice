@@ -13,7 +13,7 @@ public class PacienteController {
 
     private final PacienteService servicio;
 
-    public PacienteController(PacienteService servicio) {
+    public PacienteController(PacienteService servicio) { // Constructor para inyectar el servicio de Paciente.
         this.servicio = servicio;
     }
 
@@ -21,7 +21,7 @@ public class PacienteController {
      * Obtiene una lista de todos los pacientes registrados.
      * Requiere el rol SECRETARIA.
      */
-    @GetMapping
+    @GetMapping // Mapea solicitudes GET para listar todos los pacientes.
     public List<Paciente> listarPacientes() {
         return servicio.listar();
     }
@@ -32,7 +32,7 @@ public class PacienteController {
      * @param paciente El objeto Paciente a guardar.
      * @return El paciente guardado.
      */
-    @PostMapping
+    @PostMapping // Mapea solicitudes POST para registrar un nuevo paciente.
     public Paciente registrarPaciente(@RequestBody Paciente paciente) {
         return servicio.guardar(paciente);
     }
@@ -42,7 +42,7 @@ public class PacienteController {
      * Requiere el rol SECRETARIA.
      * @param id El ID del paciente a eliminar.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // Mapea solicitudes DELETE para eliminar un paciente por su ID.
     public void eliminarPaciente(@PathVariable Long id) {
         servicio.eliminar(id);
     }

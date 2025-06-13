@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Getter @Setter
-@Table(name = "pacientes")
+@Entity // Marca esta clase como una entidad JPA.
+@Getter @Setter // Genera automáticamente los métodos getter y setter para todos los campos.
+@Table(name = "pacientes") // Especifica el nombre de la tabla en la base de datos.
 public class Paciente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id // Marca el campo como la clave primaria de la entidad.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura la generación automática del ID.
+    private Long id; // ID único del paciente.
 
-    private String nombre;
+    private String nombre; // Nombre completo del paciente.
 
-    @Column(unique = true)
-    private String dni;
+    @Column(unique = true) // Mapea el campo a una columna con restricción de unicidad.
+    private String dni; // Número de DNI del paciente (debe ser único).
 
-    private String email;
+    private String email; // Dirección de correo electrónico del paciente.
 }
