@@ -4,24 +4,32 @@ document.addEventListener('DOMContentLoaded', () => { // Espera a que el DOM est
     const listaAgenda = document.getElementById('listaAgenda'); // Obtiene la lista donde se mostrará la agenda.
     if (btnVerAgenda) { // Verifica si el botón existe.
         btnVerAgenda.addEventListener('click', async () => { // Agrega un escuchador de eventos al botón.
-            // TODO: Implementar filtro por médico si hay varios
-            // Por ahora, obtiene todos los turnos y asume que son relevantes para el médico actual.
             try { // Intenta obtener los turnos.
                 const response = await fetch('/api/turnos'); // Envía una solicitud GET para obtener todos los turnos.
                 if (response.ok) { // Si la respuesta es exitosa.
                     const turnos = await response.json(); // Parsea la respuesta JSON.
+
+                    // Obtener la fecha actual en formato YYYY-MM-DD
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Meses 0-11
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const todayFormatted = `${year}-${month}-${day}`; // Formato "YYYY-MM-DD"
+
+                    // Filtrar turnos con estado "ASIGNADO" y que sean para el día de hoy
+                    const turnosHoyAsignados = turnos.filter(turno =>
+                        turno.estado === 'ASIGNADO' && turno.fecha === todayFormatted // Filtra por estado y fecha actual.
+                    );
+
                     listaAgenda.innerHTML = ''; // Limpia la lista actual de la agenda.
-                    if (turnos.length === 0) { // Si no hay turnos.
-                        listaAgenda.innerHTML = '<li>No hay turnos en la agenda.</li>'; // Muestra un mensaje.
-                    } else { // Si hay turnos.
-                        turnos.forEach(turno => { // Itera sobre cada turno.
+                    if (turnosHoyAsignados.length === 0) { // Si no hay turnos asignados para hoy.
+                        listaAgenda.innerHTML = '<li>No hay turnos asignados para el día de hoy.</li>'; // Muestra un mensaje.
+                    } else { // Si hay turnos asignados para hoy.
+                        turnosHoyAsignados.forEach(turno => { // Itera sobre cada turno asignado de hoy.
                             const li = document.createElement('li'); // Crea un nuevo elemento de lista.
-                            // Mostrar solo turnos que no estén cancelados o completados
-                            if (turno.estado !== 'CANCELADO' && turno.estado !== 'ATENDIDO') { // Filtra turnos por estado.
-                                // Asegúrate de que los campos de fecha y hora se muestren correctamente
-                                li.textContent = `ID: ${turno.id} - Paciente ID: ${turno.paciente.id} - Especialidad: ${turno.especialidad} - Fecha: ${turno.fecha} - Hora: ${turno.hora} - Estado: ${turno.estado}`; // Construye el texto del elemento de lista.
-                                listaAgenda.appendChild(li); // Añade el elemento a la lista.
-                            }
+                            // Construye el texto del elemento de lista, mostrando el nombre del paciente
+                            li.textContent = `ID: ${turno.id} - Paciente: ${turno.paciente.nombre} - Especialidad: ${turno.especialidad} - Hora: ${turno.hora} - Estado: ${turno.estado}`;
+                            listaAgenda.appendChild(li); // Añade el elemento a la lista.
                         });
                     }
                 } else { // Si la respuesta no es exitosa.
@@ -44,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => { // Espera a que el DOM est
             const turnoId = document.getElementById('turnoIdAtender').value; // Obtiene el ID del turno a atender.
             const diagnostico = document.getElementById('diagnostico').value; // Obtiene el diagnóstico.
 
-            // Se eliminó medicoId ya que no es parte de AtencionDTO
             const atencionData = { // Crea el objeto de datos para la atención.
                 turnoId: parseInt(turnoId), // Convierte el ID del turno a número entero.
                 diagnostico: diagnostico // Asigna el diagnóstico.
@@ -64,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => { // Espera a que el DOM est
                     mensajeAtencion.textContent = `Atención registrada para el turno ID ${atencion.turno.id}.`; // Muestra un mensaje de éxito.
                     mensajeAtencion.style.color = 'green'; // Establece el color del mensaje a verde.
                     atencionMedicaForm.reset(); // Reinicia el formulario.
-                    // Opcional: Actualizar el estado del turno a "COMPLETADO" si es necesario.
                 } else { // Si la respuesta no es exitosa.
                     const errorText = await response.text(); // Obtiene el texto del error.
                     mensajeAtencion.textContent = 'Error al registrar atención: ' + errorText; // Muestra un mensaje de error.

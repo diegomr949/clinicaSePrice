@@ -100,37 +100,47 @@ document.addEventListener('DOMContentLoaded', () => { // Espera a que el DOM est
         });
     }
 
-    // Lógica para ver lista de espera (simulada)
-    const btnVerListaEspera = document.getElementById('btnVerListaEspera'); // Obtiene el botón para ver la lista de espera.
-    const listaEspera = document.getElementById('listaEspera'); // Obtiene la lista donde se mostrará la lista de espera.
+    // Lógica para ver lista de turnos asignados del día actual
+    const btnVerListaEspera = document.getElementById('btnVerListaEspera'); // Obtiene el botón para ver la lista de turnos.
+    const listaEspera = document.getElementById('listaEspera'); // Obtiene la lista donde se mostrarán los turnos.
     if (btnVerListaEspera) { // Verifica si el botón existe.
         btnVerListaEspera.addEventListener('click', async () => { // Agrega un escuchador de eventos al botón.
-            // En una aplicación real, aquí harías una llamada para obtener turnos pendientes
             try { // Intenta obtener los turnos.
                 const response = await fetch('/api/turnos'); // Obtiene todos los turnos.
                 if (response.ok) { // Si la respuesta es exitosa.
                     const turnos = await response.json(); // Parsea la respuesta JSON.
-                    // Filtrar turnos con estado "PENDIENTE" para la "lista de espera"
-                    const turnosPendientes = turnos.filter(turno => turno.estado === "PENDIENTE"); // Filtra los turnos con estado "PENDIENTE".
+
+                    // Obtener la fecha actual en formato YYYY-MM-DD
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Meses 0-11
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const todayFormatted = `${year}-${month}-${day}`; // Formato "YYYY-MM-DD"
+
+                    // Filtrar turnos con estado "ASIGNADO" y que sean para el día de hoy
+                    const turnosHoyAsignados = turnos.filter(turno =>
+                        turno.estado === "ASIGNADO" && turno.fecha === todayFormatted // Filtra por estado y fecha actual.
+                    );
 
                     listaEspera.innerHTML = ''; // Limpia la lista actual.
-                    if (turnosPendientes.length === 0) { // Si no hay turnos pendientes.
-                        listaEspera.innerHTML = '<li>No hay turnos en lista de espera.</li>'; // Muestra un mensaje.
-                    } else { // Si hay turnos pendientes.
-                        turnosPendientes.forEach(turno => { // Itera sobre cada turno pendiente.
+                    if (turnosHoyAsignados.length === 0) { // Si no hay turnos asignados para hoy.
+                        listaEspera.innerHTML = '<li>No hay turnos asignados para el día de hoy.</li>'; // Muestra un mensaje.
+                    } else { // Si hay turnos asignados para hoy.
+                        turnosHoyAsignados.forEach(turno => { // Itera sobre cada turno asignado de hoy.
                             const li = document.createElement('li'); // Crea un nuevo elemento de lista.
-                            li.textContent = `ID: ${turno.id} - Paciente ID: ${turno.paciente.id} - Especialidad: ${turno.especialidad} - Fecha: ${turno.fecha} - Hora: ${turno.hora}`; // Construye el texto del elemento de lista.
+                            li.textContent = `ID: ${turno.id} - Paciente: ${turno.paciente.nombre} - Especialidad: ${turno.especialidad} - Fecha: ${turno.fecha} - Hora: ${turno.hora} - Estado: ${turno.estado}`; // Construye el texto del elemento de lista usando el nombre completo.
                             listaEspera.appendChild(li); // Añade el elemento a la lista.
                         });
                     }
                 } else { // Si la respuesta no es exitosa.
                     const errorText = await response.text(); // Obtiene el texto de error de la respuesta.
-                    listaEspera.innerHTML = `<li style="color: red;">Error al cargar lista de espera: ${errorText}</li>`; // Muestra un mensaje de error.
+                    listaEspera.innerHTML = `<li style="color: red;">Error al cargar turnos: ${errorText}</li>`; // Muestra un mensaje de error.
                 }
             } catch (error) { // Captura errores de red.
-                console.error('Error de red al cargar lista de espera:', error); // Registra el error en la consola.
-                listaEspera.innerHTML = '<li style="color: red;">Error de conexión al cargar lista de espera.</li>'; // Muestra un mensaje de error de conexión.
+                console.error('Error de red al cargar turnos:', error); // Registra el error en la consola.
+                listaEspera.innerHTML = '<li style="color: red;">Error de conexión. Intente nuevamente.</li>'; // Muestra un mensaje de error de conexión.
             }
         });
     }
 });
+
