@@ -1,5 +1,7 @@
 Sistema de Gestión de Turnos - Clínica SePrice
+
 Descripción del Proyecto
+
 El Sistema de Gestión de Turnos - Clínica SePrice es una aplicación diseñada para optimizar la administración de turnos médicos y la gestión de la información clínica en los Consultorios Externos de la Clínica SePrice. Su objetivo principal es reducir los tiempos de espera, disminuir errores administrativos y mejorar la experiencia tanto para pacientes como para el personal médico y administrativo.
 
 La aplicación está desarrollada con Spring Boot para el backend (APIs REST) y HTML, CSS, JavaScript Vanilla para el frontend, proporcionando una interfaz web intuitiva y responsiva.
