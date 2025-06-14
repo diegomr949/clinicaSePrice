@@ -50,8 +50,6 @@ Consta de varias páginas HTML para diferentes roles y funcionalidades.
 
 Archivos clave:
 
-index.html: Página de inicio (redirige a login.html).
-
 login.html: Interfaz de inicio de sesión.
 
 registrarPaciente.html: Formulario para el registro público de pacientes.
@@ -133,42 +131,34 @@ El frontend es estático y no requiere un servidor web adicional para funcionar 
 Asegúrate de que el backend esté en ejecución.
 
 Abre tu navegador web y navega a:
-http://localhost:8080/login.html (o http://localhost:8080/index.html que redirigirá al login).
+http://localhost:8080/login.html.
 
 Roles y Credenciales de Prueba
 La aplicación incluye usuarios en memoria para fines de demostración, configurados en SecurityConfig.java:
 
-Usuario
+Usuario: paciente
 
-Contraseña
+Contraseña: 1234
 
-Rol
+Rol: ROLE_PACIENTE
 
-Página de Redirección
+Página de Redirección: paciente.html
 
-paciente
+Usuario: secretaria
 
-1234
+Contraseña: 1234
 
-ROLE_PACIENTE
+Rol: ROLE_SECRETARIA
 
-paciente.html
+Página de Redirección: secretaria.html
 
-secretaria
+Usuario: medico
 
-1234
+Contraseña: 1234
 
-ROLE_SECRETARIA
+Rol: ROLE_MEDICO
 
-secretaria.html
-
-medico
-
-1234
-
-ROLE_MEDICO
-
-medico.html
+Página de Redirección: medico.html
 
 Endpoints de la API (Backend)
 Todos los endpoints están prefijados con /api.
@@ -197,11 +187,6 @@ GET /api/atenciones: Lista todas las atenciones (requiere MEDICO).
 
 POST /api/atenciones: Registra una nueva atención (requiere MEDICO).
 
-Consideraciones Adicionales
-CORS: La configuración de CORS (@CrossOrigin(origins = "*")) está establecida para permitir todas las solicitudes de cualquier origen en desarrollo. En un entorno de producción, esto debería restringirse a los dominios específicos de tu frontend.
-
-Seguridad (CSRF): La protección CSRF está deshabilitada en SecurityConfig.java para simplificar el desarrollo. Para una aplicación en producción, se recomienda encarecidamente habilitarla e implementar el manejo de tokens CSRF en el frontend.
+Consideraciones Adicionales:
 
 Mensajes de Error: La interfaz de usuario muestra mensajes de éxito o error al usuario para cada operación.
-
-IDs de Paciente en Frontend: Actualmente, el frontend (paciente.js, secretaria.js) utiliza IDs de paciente ficticios (ej. pacienteId = 1) para simular la asignación/consulta de turnos. En una aplicación real, este pacienteId debería ser dinámico y obtenido del usuario autenticado (ej. a través de un endpoint del backend que devuelva los detalles del usuario logueado).
